@@ -27,7 +27,7 @@
     "generate": "dotenv -- bun run generate:text-vector-embeddings && dotenv --  bun run generate:command-start-stop",
     "generate:text-vector-embeddings": "bun x openapi-typescript ${MATCHMAKING_ENDPOINT}/openapi --output src/types/generated/matchmaking.ts",
     "generate:command-start-stop": "bun x openapi-typescript ${START_STOP_ENDPOINT}/openapi --output src/types/generated/start-stop.ts",
-    "prepare": "bun run generate && husky",
+    "prepare": "bun run prepare:manifest && bun run generate && husky",
     "prepare:manifest": "bun x @ubiquity-os/plugin-manifest-tool .",
     "prebuild": "bun run prepare:manifest"
   },
