@@ -28,7 +28,7 @@
     "generate:text-vector-embeddings": "bun x openapi-typescript ${MATCHMAKING_ENDPOINT}/openapi --output src/types/generated/matchmaking.ts",
     "generate:command-start-stop": "bun x openapi-typescript ${START_STOP_ENDPOINT}/openapi --output src/types/generated/start-stop.ts",
     "prepare": "bun run generate && husky",
-    "prepare:manifest": "node ./scripts/prepare-manifest.mjs",
+    "prepare:manifest": "curl -fsSL https://raw.githubusercontent.com/ubiquity-os/action-deploy-plugin/main/.github/scripts/update-manifest.js | node - .",
     "prebuild": "bun run prepare:manifest"
   },
   "keywords": [
