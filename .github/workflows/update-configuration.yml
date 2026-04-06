@@ -127,6 +127,12 @@ jobs:
           MATCHMAKING_ENDPOINT: ${{ vars.MATCHMAKING_ENDPOINT }}
           START_STOP_ENDPOINT: ${{ vars.START_STOP_ENDPOINT }}
 
+      - uses: ubiquity-os/deno-plugin-adapter@main
+        if: ${{ env.DEPLOY_DENO_ENABLED == 'true' && needs.prepare.outputs.is_tag_ref != 'true' && needs.prepare.outputs.is_artifact_ref != 'true' && github.event_name != 'delete' }}
+        id: adapter
+        with:
+          pluginEntry: "./worker"
+
       - uses: ubiquity-os/deno-deploy@issue-17-deno-deploy-app-migration
         if: ${{ env.DEPLOY_DENO_ENABLED == 'true' && needs.prepare.outputs.is_tag_ref != 'true' && needs.prepare.outputs.is_artifact_ref != 'true' }}
         env:
@@ -143,7 +149,7 @@ jobs:
           organization: ubiquity-os
           action: ${{ github.event_name == 'delete' && 'delete' || 'provision' }}
           app: ${{ secrets.DENO_PROJECT_NAME }}
-          entrypoint: src/worker.ts
+          entrypoint: ${{ github.event_name == 'delete' && 'src/deno.ts' || steps.adapter.outputs.entrypoint }}
 
   publish-deno-manifest:
     name: "Publish Deno Manifest"
