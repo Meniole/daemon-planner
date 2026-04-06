@@ -115,6 +115,18 @@ jobs:
       - uses: actions/checkout@v4
         if: ${{ github.event_name != 'delete' && env.DEPLOY_DENO_ENABLED == 'true' && needs.prepare.outputs.is_tag_ref != 'true' && needs.prepare.outputs.is_artifact_ref != 'true' }}
 
+      - uses: oven-sh/setup-bun@v2
+        if: ${{ env.DEPLOY_DENO_ENABLED == 'true' && needs.prepare.outputs.is_tag_ref != 'true' && needs.prepare.outputs.is_artifact_ref != 'true' }}
+
+      - name: Generate OpenAPI typings
+        if: ${{ env.DEPLOY_DENO_ENABLED == 'true' && needs.prepare.outputs.is_tag_ref != 'true' && needs.prepare.outputs.is_artifact_ref != 'true' }}
+        run: |
+          bun install --frozen-lockfile
+          bun run generate:openapi-types
+        env:
+          MATCHMAKING_ENDPOINT: ${{ vars.MATCHMAKING_ENDPOINT }}
+          START_STOP_ENDPOINT: ${{ vars.START_STOP_ENDPOINT }}
+
       - uses: ubiquity-os/deno-deploy@issue-17-deno-deploy-app-migration
         if: ${{ env.DEPLOY_DENO_ENABLED == 'true' && needs.prepare.outputs.is_tag_ref != 'true' && needs.prepare.outputs.is_artifact_ref != 'true' }}
         env:
