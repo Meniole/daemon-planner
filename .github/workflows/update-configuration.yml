@@ -135,6 +135,15 @@ jobs:
 
       - uses: ubiquity-os/deno-deploy@issue-17-deno-deploy-app-migration
         if: ${{ env.DEPLOY_DENO_ENABLED == 'true' && needs.prepare.outputs.is_tag_ref != 'true' && needs.prepare.outputs.is_artifact_ref != 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          KERNEL_PUBLIC_KEY: ${{ secrets.KERNEL_PUBLIC_KEY }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+          APP_INSTALLATION_ID: ${{ secrets.APP_INSTALLATION_ID }}
+          LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
+          MATCHMAKING_ENDPOINT: ${{ vars.MATCHMAKING_ENDPOINT }}
+          START_STOP_ENDPOINT: ${{ vars.START_STOP_ENDPOINT }}
         with:
           token: ${{ secrets.DENO_2_DEPLOY_TOKEN }}
           organization: ubiquity-os
@@ -150,6 +159,10 @@ jobs:
 
     steps:
       - uses: ubiquity-os/deno-deploy@issue-17-deno-deploy-app-migration
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
         with:
           token: ${{ secrets.DENO_2_DEPLOY_TOKEN }}
           action: publish-manifest
