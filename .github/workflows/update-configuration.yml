@@ -128,6 +128,7 @@ jobs:
           START_STOP_ENDPOINT: ${{ vars.START_STOP_ENDPOINT }}
         with:
           token: ${{ secrets.DENO_2_DEPLOY_TOKEN }}
+          organization: ubiquity-os
           action: ${{ github.event_name == 'delete' && 'delete' || 'provision' }}
           app: ${{ secrets.DENO_PROJECT_NAME }}
           entrypoint: src/worker.ts
