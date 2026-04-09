@@ -41,7 +41,7 @@ describe("Plugin tests", () => {
       APP_PRIVATE_KEY: "private_key",
     });
     const content = await response.json();
-    expect(content).toEqual(manifest);
+    expect(content).toEqual({ ...manifest, homepage_url: "http://localhost" });
   });
 
   it("Should assign a newly opened issue to the least loaded candidate", async () => {
