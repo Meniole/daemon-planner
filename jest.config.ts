@@ -18,6 +18,7 @@ const cfg: Config = {
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
     "^@ubiquity-os/plugin-sdk$": "<rootDir>/tests/__mocks__/plugin-sdk.ts",
+    "^@ubiquity-os/plugin-sdk/manifest$": "<rootDir>/tests/__mocks__/plugin-sdk-manifest.ts",
   },
   setupFilesAfterEnv: ["dotenv/config"],
 };
